@@ -55,7 +55,32 @@ color: black;
   
 }
 
-.switcher-visible{
-  right:1%
+
+@media screen and (max-width:992px){
+  #layers{
+    width: 40%;
+    padding: 20px;
+  }
+  #layers #close-layers{
+    top: 30px ;
+    right: 20px;
+  }
+
+  .icons{
+    font-size: 1.8em;
+  }
 }
 
+@media screen and (max-width:600px){
+  #layers{
+    width: 40%;
+    padding: 25px;
+  }
+  #layers #close-layers{
+    top: 40px ;
+    right: 20px;
+  }
+  .icons{
+    font-size: 2em;
+  }
+}
