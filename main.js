@@ -15,12 +15,10 @@ const source = new VectorSource({wrapX: false});
 
 const vector = new VectorLayer({
   source: source,
-  // visible:true,
-  // title:"Vector"
+ 
 });
 
 const map = new Map({
-  // layers: [raster, vector],
   target: 'map',
   view: new View({
     center: [0, 0],
@@ -28,7 +26,7 @@ const map = new Map({
   }),
 });
 
-//Base map Layers
+//Base map Layers and Switching
 
 
 const Humanitarian=new TileLayer({
@@ -77,29 +75,7 @@ for (const layer of LayerElements) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Switch layers
+//Switch layers CSS
 
 let switcher=document.getElementById("layer-switcher")
 switcher.addEventListener("click",()=>{
@@ -118,6 +94,9 @@ closeLayers.addEventListener("click",()=>{
 
 
 
+
+
+//Draw Features
 
 let draw,modify; // global so we can remove it later
 function addInteraction(type) {
@@ -146,7 +125,7 @@ function addInteraction(type) {
   }
 }
 
-//Adding draw features
+//Adding different draw features
 
 
 var types=document.getElementsByClassName("interactions")
