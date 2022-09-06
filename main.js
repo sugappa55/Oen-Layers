@@ -27,9 +27,9 @@ const map = new Map({
 });
 
 
-let draw; // global so we can remove it later
+let draw,modify; // global so we can remove it later
 function addInteraction(type) {
-  if (type !== 'remove') {
+  if (type !== 'remove' && type !== 'edit') {
     map.removeInteraction(draw)
 
     draw = new Draw({
@@ -38,9 +38,19 @@ function addInteraction(type) {
     });
     map.addInteraction(draw)
   }
-  else{
+  else if(type==="remove"){
     draw.removeLastPoint()
-    map.removeInteraction(draw)
+    map.removeInteraction(draw);
+    map.removeInteraction(modify);
+  }
+  else {
+
+      //Adding Modify feature
+
+     modify=new Modify({
+    source:source
+   })
+     map.addInteraction(modify)
   }
 }
 
@@ -52,10 +62,10 @@ for(let elem of types){
 
     elem.addEventListener('click', function () {
       
-      // for (const activebtn of types) {
-      //   if(activebtn.id===elem.id)activebtn.classList.add("bg-gray")
-      //   else activebtn.classList.remove("bg-gray")
-      // }
+      for (const activebtn of types) {
+        if(activebtn.id===elem.id)activebtn.classList.add("bg-gray")
+        else activebtn.classList.remove("bg-gray")
+      }
       addInteraction(elem.id)
 
 
