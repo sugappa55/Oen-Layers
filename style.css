@@ -34,3 +34,28 @@ html, body {
 .bg-gray{
   background-color:rgb(66, 65, 65);
 }
+
+#layers{
+  width: 25%;
+  padding: 30px;
+  position: absolute;
+  top: 1%;
+  height: 80vh;
+right: -100%;
+border:2px solid;
+transition: all 0.3s ease-in-out;
+background-color: white;
+color: black;
+}
+
+#layers #close-layers{
+  position: absolute;
+  top: 30px ;
+  right: 40px;
+  
+}
+
+.switcher-visible{
+  right:1%
+}
+

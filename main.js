@@ -26,6 +26,59 @@ const map = new Map({
   }),
 });
 
+//Base map Layers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Switch layers
+
+let switcher=document.getElementById("layer-switcher")
+switcher.addEventListener("click",()=>{
+  const layers=document.getElementById("layers")
+  // layers.classList.add("switcher-visible")
+  layers.style.right="1%"
+  console.log(layers)
+})
+
+const closeLayers=document.getElementById("close-layers")
+closeLayers.addEventListener("click",()=>{
+  const layers=document.getElementById("layers")
+  // layers.classList.remove("switcher-visible")
+  layers.style.right="-100%"
+
+})
+
+
+
 
 let draw,modify; // global so we can remove it later
 function addInteraction(type) {
