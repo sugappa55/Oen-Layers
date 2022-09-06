@@ -5,9 +5,19 @@
     <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title> Open Layers</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/solid.css"/>
   </head>
   <body>
     <div id="map"></div>
+
+    <div id="interactions">
+      <button class="interactions icons" title="draw Polygon" id="Polygon"><i class="fa-solid fa-draw-polygon"></i></button>
+      <button class="interactions icons" title="draw LineString" id="LineString"><i class="fa-solid fa-arrow-trend-up"></i></button>
+      <button class="interactions icons" title="draw Point" id="Point"><i class="fa-solid fa-arrow-pointer"></i></button>
+      <button class="interactions icons" title="draw Circle" id="Circle"><i class="fa-solid fa-circle"></i></button>
+      <button class="interactions icons" title="clear interaction" id="remove"><i class="fa-solid fa-xmark"></i></button>
+    </div>
     <script type="module" src="./main.js"></script>
   </body>
 </html>

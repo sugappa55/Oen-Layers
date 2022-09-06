@@ -1,17 +1,67 @@
-import './style.css';
-import {Map, View} from 'ol';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
+import "./style.css"
+import Draw from 'ol/interaction/Draw';
+import Modify from 'ol/interaction/Modify';
+
+import Map from 'ol/Map';
+import View from 'ol/View';
+import {OSM, Vector as VectorSource} from 'ol/source';
+import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+
+const raster = new TileLayer({
+  source: new OSM(),
+});
+
+const source = new VectorSource({wrapX: false});
+
+const vector = new VectorLayer({
+  source: source,
+});
 
 const map = new Map({
+  layers: [raster, vector],
   target: 'map',
-  layers: [
-    new TileLayer({
-      source: new OSM()
-    })
-  ],
   view: new View({
     center: [0, 0],
-    zoom: 2
-  })
+    zoom: 4,
+  }),
 });
+
+
+let draw; // global so we can remove it later
+function addInteraction(type) {
+  if (type !== 'remove') {
+    map.removeInteraction(draw)
+
+    draw = new Draw({
+      source: source,
+      type: type//lineString polygon circle point
+    });
+    map.addInteraction(draw)
+  }
+  else{
+    draw.removeLastPoint()
+    map.removeInteraction(draw)
+  }
+}
+
+//Adding draw features
+
+
+var types=document.getElementsByClassName("interactions")
+for(let elem of types){
+
+    elem.addEventListener('click', function () {
+      
+      // for (const activebtn of types) {
+      //   if(activebtn.id===elem.id)activebtn.classList.add("bg-gray")
+      //   else activebtn.classList.remove("bg-gray")
+      // }
+      addInteraction(elem.id)
+
+
+      })
+      
+  
+}
+
+
