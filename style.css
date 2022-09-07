@@ -46,6 +46,13 @@ border:2px solid;
 transition: all 0.3s ease-in-out;
 background-color: white;
 color: black;
+line-height: 1em;
+font-size: 1.2em;
+}
+
+
+body::-webkit-scrollbar{
+  display: none;
 }
 
 #layers #close-layers{

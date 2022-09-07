@@ -22,7 +22,7 @@ const map = new Map({
   target: 'map',
   view: new View({
     center: [0, 0],
-    zoom: 4,
+    zoom: 2,
   }),
 });
 
