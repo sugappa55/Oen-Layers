@@ -1,11 +1,11 @@
 import "./style.css"
 import Draw from 'ol/interaction/Draw';
 import Modify from 'ol/interaction/Modify';
-
+import GeoJSON from "ol/format/GeoJSON";
 import Map from 'ol/Map';
 import View from 'ol/View';
-import {OSM, Raster, Vector as VectorSource, XYZ} from 'ol/source';
-import {Group, Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import {OSM, Raster, Vector, Vector as VectorSource, XYZ} from 'ol/source';
+import {Group, Tile as TileLayer, Vector as VectorLayer, VectorImage} from 'ol/layer';
 import { exportVectorFeaturesAsGeoJSON } from "./Helpers/exportGeoJson";
 
 const raster = new TileLayer({
@@ -17,7 +17,9 @@ const source = new VectorSource({wrapX: false});
 const vector = new VectorLayer({
   source: source,
  
-});
+  title:"defaultLayer"
+},
+);
 
 const map = new Map({
   target: 'map',
@@ -81,16 +83,13 @@ for (const layer of LayerElements) {
 let switcher=document.getElementById("layer-switcher")
 switcher.addEventListener("click",()=>{
   const layers=document.getElementById("layers")
-  // layers.classList.add("switcher-visible")
-  layers.style.right="1%"
+  layers.classList.toggle("visible")
 })
 
 const closeLayers=document.getElementById("close-layers")
 closeLayers.addEventListener("click",()=>{
   const layers=document.getElementById("layers")
-  // layers.classList.remove("switcher-visible")
-  layers.style.right="-100%"
-
+  layers.classList.toggle("visible")
 })
 
 
@@ -156,4 +155,65 @@ for(let elem of types){
 
 const downloadGeoJson=(layerFeatures)=>{
   exportVectorFeaturesAsGeoJSON(layerFeatures)
+}
+
+
+
+//Get all imported files
+
+// let vectorLayers=[vector]
+
+document.getElementById("files-upload").addEventListener("change",getFiles)
+
+
+function getFiles(){
+  let arr=[],importedfiles=this.files
+  for (const elem of importedfiles) {
+    let reader=new FileReader()
+    reader.addEventListener("load",()=>{
+        let res=reader.result
+      arr.push(res)
+    })
+    
+  reader.readAsDataURL(elem)
+
+}
+console.log(arr)//the source collecetion after using file reader
+
+
+//   ==>by using the souce after reading but no changes in the UI
+
+
+// arr.forEach((layerSource,index)=>{
+//   console.log(layerSource)
+//   let newVecorLayer=new VectorImage({
+//     source:new Vector({
+//       url:layerSource,
+//       format:new GeoJSON()
+//     }),
+//     visible:true,
+//     title:importedfiles[index]
+//   })
+//   map.addLayer(newVecorLayer)
+// })
+
+
+//==> failed to add vector layers getting XHR:https:localhost:5173/${imported file name}
+
+// for (const layerSource of importedfiles) {
+//   console.log(layerSource)
+//   let newVecorLayer=new VectorImage({
+//     source:new Vector({
+//       url:layerSource,
+//       format:new GeoJSON()
+//     }),
+//     visible:true,
+//     title:"layerSource"
+//   })
+//   map.addLayer(newVecorLayer)
+// }
+
+
+
+
 }

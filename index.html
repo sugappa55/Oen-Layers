@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/solid.css"/>
   </head>
   <body>
+
     <div id="map"></div>
 
     <div id="interactions">
@@ -25,18 +26,28 @@
           
       <button class="icons" id="layer-switcher" title="Change Layers"><i class="fa-solid fa-layer-group "></i></button>
       <button class="interactions icons" title="Export GeoJSON" id="download"><i class="fa-solid fa-download"></i></button>
+      <button class="icons" title="Import GeoJSON" id="Import">     
+        <input type="file" multiple accept=".geojson" style="display: none;" id="files-upload"><label for="files-upload"> <i class="fa-solid fa-upload"></i></label>
+      </button>
+
 
 
     </div>
 
-          <div id="layers">
+          <div id="layers" class="hide">
             <button id="close-layers" class="icons"><i class="fa-solid fa-xmark"></i></button>
             <h3>Base Map Layers</h3>
 
-            <input type="radio" name="base-map-display" id="" checked value="Standard">OSM Base Map <br>
-            <input type="radio" name="base-map-display" id="" value="Humanitarian">OSM Humanitarian <br>
-            <input type="radio" name="base-map-display" id="" value="Stamen">Stamen Terrain
+            <input type="radio" name="base-map-display" checked value="Standard">OSM Base Map <br>
+            <input type="radio" name="base-map-display" value="Humanitarian">OSM Humanitarian <br>
+            <input type="radio" name="base-map-display" value="Stamen">Stamen Terrain
           </div>
-    <script type="module" src="./main.js"></script>
+
+          <div id="vectorLayers">
+            <h3>Layers</h3>
+          </div>
+
+
+          <script type="module" src="/main.js"></script>
   </body>
 </html>
