@@ -6,6 +6,7 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import {OSM, Raster, Vector as VectorSource, XYZ} from 'ol/source';
 import {Group, Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import { exportVectorFeaturesAsGeoJSON } from "./Helpers/exportGeoJson";
 
 const raster = new TileLayer({
   source: new OSM(),
@@ -100,7 +101,9 @@ closeLayers.addEventListener("click",()=>{
 
 let draw,modify; // global so we can remove it later
 function addInteraction(type) {
-  if (type !== 'remove' && type !== 'edit') {
+  let drawFeatures=["LineString","Circle","Polygon","Point"]
+console.log(drawFeatures.includes(type))
+  if (drawFeatures.includes(type)) {
     map.removeInteraction(draw)
 
     draw = new Draw({
@@ -114,14 +117,17 @@ function addInteraction(type) {
     map.removeInteraction(draw);
     map.removeInteraction(modify);
   }
-  else {
-
+  else if(type==="edit") {
+    console.log("modifying")
       //Adding Modify feature
 
      modify=new Modify({
     source:source
    })
      map.addInteraction(modify)
+  }
+  else if(type==="download"){
+    downloadGeoJson(vector.getSource().getFeatures())
   }
 }
 
@@ -146,3 +152,8 @@ for(let elem of types){
 }
 
 
+//Download GeoJson
+
+const downloadGeoJson=(layerFeatures)=>{
+  exportVectorFeaturesAsGeoJSON(layerFeatures)
+}
