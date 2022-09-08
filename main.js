@@ -1,33 +1,52 @@
 import "./style.css"
-import Draw from 'ol/interaction/Draw';
+import {Draw,DragAndDrop,defaults as defaultInteractions,} from 'ol/interaction';
 import Modify from 'ol/interaction/Modify';
 import GeoJSON from "ol/format/GeoJSON";
 import Map from 'ol/Map';
 import View from 'ol/View';
-import {OSM, Raster, Vector, Vector as VectorSource, XYZ} from 'ol/source';
-import {Group, Tile as TileLayer, Vector as VectorLayer, VectorImage} from 'ol/layer';
+import {OSM, Vector as VectorSource, XYZ} from 'ol/source';
+import {Group, Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import { exportVectorFeaturesAsGeoJSON } from "./Helpers/exportGeoJson";
+import VectorImageLayer from "ol/layer/VectorImage";
 
-const raster = new TileLayer({
-  source: new OSM(),
+
+
+
+const dragAndDropInteraction = new DragAndDrop({
+  formatConstructors: [GeoJSON]
 });
 
 const source = new VectorSource({wrapX: false});
 
-const vector = new VectorLayer({
+var vector = new VectorLayer({
   source: source,
- 
   title:"defaultLayer"
 },
 );
 
 const map = new Map({
+  interactions: defaultInteractions().extend([dragAndDropInteraction]),
   target: 'map',
   view: new View({
     center: [0, 0],
     zoom: 2,
   }),
 });
+
+//Adding Drag and drop feature
+dragAndDropInteraction.on('addfeatures', function (event) {
+  const vectorSource = new VectorSource({
+    features: event.features,
+  });
+  map.addLayer(
+    new VectorImageLayer({
+      source: vectorSource,
+    })
+  );
+  map.getView().fit(vectorSource.getExtent());
+});
+
+
 
 //Base map Layers and Switching
 
@@ -64,6 +83,7 @@ const allLayers=new Group({
 
 map.addLayer(allLayers)
 
+//Switch layers Logic implementation
 
 const LayerElements=document.querySelectorAll("#layers>input[type=radio]")
 for (const layer of LayerElements) {
@@ -130,7 +150,7 @@ console.log(drawFeatures.includes(type))
   }
 }
 
-//Adding different draw features
+//Adding Css to selected draw features
 
 
 var types=document.getElementsByClassName("interactions")
@@ -161,9 +181,9 @@ const downloadGeoJson=(layerFeatures)=>{
 
 //Get all imported files
 
-// let vectorLayers=[vector]
 
 document.getElementById("files-upload").addEventListener("change",getFiles)
+
 
 
 function getFiles(){
@@ -217,3 +237,15 @@ console.log(arr)//the source collecetion after using file reader
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
