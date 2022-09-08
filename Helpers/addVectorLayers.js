@@ -1,11 +1,3 @@
-
-
-
-function showLayers(elem,layers){
-
-}
-
-
 const readData = (file) => {
     return (e) => {
       try {
@@ -36,3 +28,38 @@ const readData = (file) => {
       reader.readAsText(file);
     });
   };
+
+
+
+  //Adding individual layers
+
+  function showVecorLayers(vectors,container){
+    container.innerHTML=null;
+    vectors.shift()
+    vectors.forEach(singleLayer=>{
+      let div=document.createElement("div");
+      div.classList.add("flex","singlevectorlayer")
+    let styleLayer=document.createElement("button");
+    styleLayer.classList.add("singlelayericons")
+    styleLayer.innerHTML='<i class="fa-solid fa-palette"></i>'
+    let hideLayer=document.createElement("button");
+    hideLayer.classList.add("singlelayericons")
+    hideLayer.innerHTML='<i class="fa-solid fa-eye-slash"></i>'
+    let title=document.createElement("p");
+    title.innerText=singleLayer.get("title")
+    let downloadLayer=document.createElement("button");
+    downloadLayer.classList.add("singlelayericons")
+    downloadLayer.innerHTML='<i class="fa-solid fa-cloud-arrow-down"></i>'
+    let zoomLayer=document.createElement("button");
+    zoomLayer.classList.add("singlelayericons")
+    zoomLayer.innerHTML='<i class="fa-solid fa-magnifying-glass-plus"></i>'
+    let deleteLayer=document.createElement("button");
+    deleteLayer.classList.add("singlelayericons")
+    deleteLayer.innerHTML='<i class="fa-solid fa-trash-can"></i>'
+    div.append(styleLayer,hideLayer,title,downloadLayer,zoomLayer,deleteLayer)
+    container.append(div)
+    })
+
+  }
+
+  export {showVecorLayers}

@@ -8,9 +8,10 @@ import {OSM, Vector as VectorSource, XYZ} from 'ol/source';
 import {Group, Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import { exportVectorFeaturesAsGeoJSON } from "./Helpers/exportGeoJson";
 import VectorImageLayer from "ol/layer/VectorImage";
+import { showVecorLayers } from "./Helpers/addVectorLayers";
 
 
-
+window.onload=displayLayers
 
 const dragAndDropInteraction = new DragAndDrop({
   formatConstructors: [GeoJSON]
@@ -20,7 +21,7 @@ const source = new VectorSource({wrapX: false});
 
 var vector = new VectorLayer({
   source: source,
-  title:"defaultLayer"
+  title:"defaultLayer",
 },
 );
 
@@ -35,15 +36,23 @@ const map = new Map({
 
 //Adding Drag and drop feature
 dragAndDropInteraction.on('addfeatures', function (event) {
+  console.log(event.file.name)
   const vectorSource = new VectorSource({
     features: event.features,
   });
   map.addLayer(
     new VectorImageLayer({
       source: vectorSource,
+      title:event.file.name
     })
   );
   map.getView().fit(vectorSource.getExtent());
+
+ displayLayers()
+ let vectors=document.querySelector(".vectorLayers")
+ const layers=document.getElementById("layers")
+ vectors.classList.add("visible")
+ layers.classList.remove("visible")
 });
 
 
@@ -104,6 +113,9 @@ let switcher=document.getElementById("layer-switcher")
 switcher.addEventListener("click",()=>{
   const layers=document.getElementById("layers")
   layers.classList.toggle("visible")
+  let vectors=document.querySelector(".vectorLayers")
+  vectors.classList.remove("visible")
+
 })
 
 const closeLayers=document.getElementById("close-layers")
@@ -120,6 +132,8 @@ closeLayers.addEventListener("click",()=>{
 
 let draw,modify; // global so we can remove it later
 function addInteraction(type) {
+  let vectors=document.querySelector(".vectorLayers")
+  const layers=document.getElementById("layers")
   let drawFeatures=["LineString","Circle","Polygon","Point"]
 console.log(drawFeatures.includes(type))
   if (drawFeatures.includes(type)) {
@@ -130,11 +144,17 @@ console.log(drawFeatures.includes(type))
       type: type//lineString polygon circle point
     });
     map.addInteraction(draw)
+    vectors.classList.add("visible")
+    layers.classList.remove("visible")
   }
   else if(type==="remove"){
     draw.removeLastPoint()
     map.removeInteraction(draw);
     map.removeInteraction(modify);
+    vectors.classList.add("visible")
+    layers.classList.remove("visible")
+
+
   }
   else if(type==="edit") {
     console.log("modifying")
@@ -144,6 +164,10 @@ console.log(drawFeatures.includes(type))
     source:source
    })
      map.addInteraction(modify)
+     vectors.classList.add("visible")
+    layers.classList.remove("visible")
+
+
   }
   else if(type==="download"){
     downloadGeoJson(vector.getSource().getFeatures())
@@ -239,7 +263,11 @@ console.log(arr)//the source collecetion after using file reader
 }
 
 
-
+function displayLayers(){
+  var allMapLayers=map.getAllLayers().filter((layer)=>layer.getVisible())
+  let container=document.getElementById("AllVectorImages")
+  showVecorLayers(allMapLayers,container)
+}
 
 
 
