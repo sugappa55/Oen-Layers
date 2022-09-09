@@ -86,7 +86,7 @@ visible:false,
 title:"Stamen"
 })
 
-const allLayers=new Group({
+export const allLayers=new Group({
   layers:[Standard,Humanitarian,Stamen,vector ]
 })
 
@@ -264,9 +264,9 @@ console.log(arr)//the source collecetion after using file reader
 
 
 function displayLayers(){
-  var allMapLayers=map.getAllLayers().filter((layer)=>layer.getVisible())
+  var allMapLayers=map.getAllLayers().filter(layer=>layer.getVisible())
   let container=document.getElementById("AllVectorImages")
-  showVecorLayers(allMapLayers,container)
+  showVecorLayers(allMapLayers,container,map)
 }
 
 
